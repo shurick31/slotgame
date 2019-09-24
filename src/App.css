@@ -14,6 +14,12 @@ body {
   color: #990;
 }
 
+.balance-container h3 span.no-credits {
+  font-size: 1.5rem;
+  padding-left: 2rem;
+  color: rgba(255,127,80,0.7);
+}
+
 
 .balance-container .input-container input {
     font-size: 1.17rem;

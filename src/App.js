@@ -10,7 +10,7 @@ const RepeatButton = (props) => {
     <button
       id='repeatButton'
       onClick={props.onClick}>
-      Spin!
+      Press to play!
         </button>
   );
 }
@@ -310,16 +310,20 @@ export default class Dashboard extends React.Component {
 
         <div>
           <div className="balance-container">
-            <h3>Your balance: <span style={{ color: balanceColor }}>{this.state.balance}</span></h3>
+            <h3>Your balance: <span style={{ color: balanceColor }}>{this.state.balance}</span>
+              <span className="no-credits">{this.state.balance === 0 ?
+                'Please enter some amount of credits to start!' :
+                null}</span>
+            </h3>
+
             <div className="input-container">
               <input
                 type="text"
                 onChange={this.changeInput}
                 value={this.state.enterValue} />
-
               <button onClick={this.setBalance}>
                 Pay
-                            </button>
+              </button>
             </div>
           </div>
         </div>
