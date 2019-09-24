@@ -17,6 +17,15 @@ const RepeatButton = (props) => {
 
 
 
+const WinSpan = (props) => {
+  const { amount } = props;
+  return (
+    <span className="win-amount">
+      {amount}
+    </span>
+  );
+}
+
 
 
 export default class Dashboard extends React.Component {
@@ -34,7 +43,7 @@ export default class Dashboard extends React.Component {
   }
 
   handleClick() {
-    this.setState({ winner: null, balance: this.state.balance - 1 });
+    this.setState({ winner: null, balance: this.state.balance - 1, winLines: null, win: null });
     this.emptyArray();
     this._child1.forceUpdateHandler();
     this._child2.forceUpdateHandler();
@@ -120,6 +129,7 @@ export default class Dashboard extends React.Component {
 
     let tmpWin = 0;
     let winCost = 75;
+    let winLines = [];
     let allowedIcons = ['Cherry.png', '7.png'];
     for (let line of lines) {
       let matched = 0;
@@ -131,16 +141,22 @@ export default class Dashboard extends React.Component {
       if (matched === 3) {
         tmpWin += winCost;
         matched = 0;
+        winLines.push(line);
       }
     }
-    return tmpWin;
+    if (tmpWin > 0) {
+      return { win: tmpWin, line: winLines };
+    } else {
+      return null;
+    }
+
   }
 
   resolveBars = (lines) => {
     // means that is not one of 3 3xBAR or 3 2xBAR or 3 BAR 
     // they're reolved before
     let tmpWin = 0;
-
+    let winLines = [];
     for (let line of lines) {
       let matched = 0;
       for (let sym of this.state[line]) {
@@ -151,17 +167,24 @@ export default class Dashboard extends React.Component {
       if (matched === 3) {
         tmpWin += 5;
         matched = 0;
+        winLines.push(line);
       }
     }
 
-    return tmpWin;
+    //return tmpWin;
+    if (tmpWin > 0) {
+      return { win: tmpWin, line: winLines };
+    } else {
+      return null;
+    }
+
   }
 
   resolveWin = () => {
 
     const lines = ['firstLine', 'secondLine', 'thirdLine'];
     // to collect full lines to avoid check them again
-    const winLines = [];
+    let winLines = [];
     let winning = 0;
 
     // cherries first
@@ -195,13 +218,24 @@ export default class Dashboard extends React.Component {
     }
 
     let notWins = lines.filter(x => !winLines.includes(x));
-    winning += this.resolveCherryMix(notWins);
-    winning += this.resolveBars(notWins);
+    let mixWins = this.resolveCherryMix(notWins);
+    if (mixWins) {
+      winLines = winLines.concat(mixWins.line);
+      winning += mixWins.win;
+    }
+    let barWins = this.resolveBars(notWins);
+    if (barWins) {
+      winLines = winLines.concat(barWins.line);
+      winning += barWins.win;
+    }
 
     // other combos
 
-
-    this.setState({ balance: this.state.balance + winning });
+    this.setState({ balance: this.state.balance + winning, win: winning, winLines }, () => {
+      this.timeout = setTimeout(() => {
+        this.setState({ win: null }, () => { clearTimeout(this.timeout) });
+      }, 3000);
+    });
   }
 
 
@@ -297,7 +331,11 @@ export default class Dashboard extends React.Component {
       debugPanelClassName += " hidden";
     }
 
+    if (this.state.winLines) {
+      for (let line of this.state.winLines) {
 
+      }
+    }
     return (
       <div>
 
@@ -314,6 +352,8 @@ export default class Dashboard extends React.Component {
               <span className="no-credits">{this.state.balance === 0 ?
                 'Please enter some amount of credits to start!' :
                 null}</span>
+
+              {this.state.win ? <WinSpan amount={this.state.win} /> : null}
             </h3>
 
             <div className="input-container">
@@ -339,7 +379,16 @@ export default class Dashboard extends React.Component {
             <Spinner onFinish={this.finishHandler} ref={(child) => { this._child2 = child; }} timer="1400" image={this.state.image_2} balance={this.state.balance} debug={debugRules} reel={1} />
             <Spinner onFinish={this.finishHandler} ref={(child) => { this._child3 = child; }} timer="2200" image={this.state.image_3} balance={this.state.balance} debug={debugRules} reel={2} />
             <div className="gradient-fade"></div>
+            {this.state.winLines && this.state.winLines.indexOf('firstLine') > -1 ?
+              <div className="first-line-win"></div> : null
+            }
 
+            {this.state.winLines && this.state.winLines.indexOf('secondLine') > -1 ?
+              <div className="second-line-win"></div> : null
+            }
+            {this.state.winLines && this.state.winLines.indexOf('thirdLine') > -1 ?
+              <div className="third-line-win"></div> : null
+            }
           </div> : null}
 
         {this.state.balance > 0 ?
