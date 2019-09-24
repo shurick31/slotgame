@@ -1,22 +1,222 @@
-.App {
-  text-align: center;
+
+body { 
+  /* background-color: #292929; */
+  background-color: silver;
 }
 
-.App-logo {
-  height: 40vmin;
+.balance-container {
+  padding: 0 24px 4px 8px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.balance-container h3{
+  margin-block-start: 0.75rem;
+  font-size: 2rem;
+  color: #990;
+}
+
+
+.balance-container .input-container input {
+    font-size: 1.17rem;
+    border-radius: 5px 0 0 5px;
+    border: none;
+    padding: 0.25rem;
+}
+.balance-container .input-container button {
+  font-size: 1.17rem;
+  border-radius: 0 5px 5px 0;
+  border: none;
+  padding: 0.25rem;
+  background-color: blanchedalmond;
+}
+
+
+
+h1 {  
+  font-size: 150%;
+  padding: 0.25em .5em;  
+  font-family: 'Cairo', sans-serif;
+}
+
+h1 span {
+  color: aliceblue;
+  border: 1px solid hsla(208, 100%, 97.1%, .2);
+  padding: 0.1em .2em;  
+}
+
+.reel { 
+  display: inline-block;
+  width: 141px;
+  height: 564px;
+  overflow: hidden;
+  
+  will-change: backgroundPosition;
+  transition: 0.3s background-position ease-in-out;
+  padding: 0 70px;
+  transform: translateZ(0);
+}
+
+.reel:nth-child(2) {
+  margin: 0 10px;
+}
+
+* { box-sizing: border-box; }
+
+.row.spinner {
+  border: 1px solid black;
+  position: relative;
+}
+.spinner-container {
+  overflow: hidden;
+  height: 363px;  
+  padding: 2em;
+  position: absolute;
+  top: 90px;
+  left: 30%;
+  left: calc(( 100% - 443px ) / 2 );
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  transition: 0.3s transform;
+}
+.spinner-button {
+  overflow: hidden;
+  padding: 2em;
+  position: absolute;
+  left: calc(( 100% - 443px ) / 2 );
+  display: flex;
+  transition: 0.3s transform;
+  top: 430px;
+  width: 506px;
+  height: 110px;
 }
 
-.App-link {
-  color: #09d3ac;
+
+#repeatButton {
+
+  width: 100%;
+  font-size: 1.875rem;
+}
+
+.app-wrap.winner-false {
+  animation: linear 1s spin;
+}
+
+.spinner-container::after {
+  position: absolute;
+  content: '';
+  display: block;
+  height: 121px;
+  top: 151px;
+  right: 30px;
+  left: 30px;
+  background: rgba(255, 0, 0, .1);  
+}
+
+.gradient-fade {
+  position: absolute;
+  top: 32px;
+  right: 32px;
+  bottom: 0;
+  left: 32px;
+  background: linear-gradient(
+    to bottom, 
+    rgba(64,64,64,1) 0%, 
+    rgba(64,64,64,0) 7%, 
+    rgba(64,64,64,0) 93%, 
+    rgba(64,64,64,1) 100%
+  );
+}
+.debug-header {
+  position: absolute;
+  /* bottom: 80px; */
+  top: 500px;
+  right: 40px;
+  width: 50%;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.debug-panel {
+  background: lightgoldenrodyellow;
+  position: absolute;
+  top: 535px;
+  /* bottom: 40px; */
+  right: 40px;
+  width: 50%;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.debug-panel .d-flex.row {
+  display: flex;
+}
+
+.hidden {
+  display: none;
+}
+
+.chevron::before {
+	border-style: solid;
+	border-width: 0.25em 0.25em 0 0;
+	content: '';
+	display: inline-block;
+	height: 0.45em;
+	left: 0.15em;
+	position: relative;
+	top: 0.15em;
+	transform: rotate(-45deg);
+	vertical-align: top;
+	width: 0.45em;
+}
+
+.chevron.right:before {
+	left: 0;
+	transform: rotate(45deg);
+}
+
+.chevron.bottom:before {
+	top: 0;
+	transform: rotate(135deg);
+}
+
+.chevron.left:before {
+	left: 0.25em;
+	transform: rotate(-135deg);
+}
+
+@media screen and (max-width: 1000px) {
+  .spinner-button {
+    
+    transform: translate(-10%) scale(.56, .55);
+  }  
+  .spinner-container {
+    transform: translate(-10%) scale(.55, .55);
+  }
+
+  .debug-header { 
+    transform: translate(-45%);
+  }
+  .debug-panel {
+    width: 100%;
+    right: 0;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .spinner-button {
+
+    transform: translate(-10%) scale(.4, .5);
+  }
+  .spinner-container {
+    /* top: 50%; */
+    transform: translate(-10%) scale(.5, .5);
+  }
+  .debug-header { 
+    transform: translate(-45%);
+  }
+  .debug-panel {
+    width: 100%;
+    right: 0;
+  }  
 }
