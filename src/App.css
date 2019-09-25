@@ -88,6 +88,8 @@ h1 span {
   position: absolute;
   left: calc(( 100% - 443px ) / 2 );
   display: flex;
+  justify-content: center;
+  align-items: center;
   transition: 0.3s transform;
   top: 430px;
   width: 506px;
@@ -272,3 +274,78 @@ h1 span {
   from {color: red;}
   to {color: yellow;}
 }
+
+/* spin button */
+/* * { 
+  box-sizing: border-box; 
+}
+
+body {
+  padding: 2.5em;
+  background-color: #dfeff7;
+} */
+
+
+a.spin-button:link, a.spin-button:visited {
+  background-color: #0ca6f2;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  margin: 36px;
+  padding: .5em 2em;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: 0 1px 1px #444;
+}
+
+a.spin-button:before {
+  content: "";
+  display: block;
+  background-color: #0ca6f2;
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  bottom: -5px;
+  right: -5px;
+  z-index: -1;
+  border-radius: 10px;
+  background-image: linear-gradient(to bottom, #4AC9FA 0%, #0b95d9 40%);
+  box-shadow: 0px -1px 2px 0 #065881 inset,
+              0px 1px 1px 1px #ccc,
+              0 0 0 6px #fff,
+              0 2px 12px 8px #ddd;
+}
+
+a.spin-button:active {
+  background-color: #0091DC;
+}
+
+a.spin-button:active:before {
+  background-color: #0091DC;
+  background-image: none;
+  box-shadow: 0px 1px 2px 0 #444 inset,
+              0 0 0 6px #fff,
+              0 2px 12px 8px #ddd;
+}
+
+a.spin-button:hover {
+  background: #0b94d9;
+}​
+
+a.spin-button:hover:before {
+  background-image: linear-gradient(to bottom, #4FBEEB 0%, #0082C6 40%);
+}
+
+a.spin-button.disabled {
+  background-color: #9e9e9e;
+}
+a.spin-button.disabled:before {
+  background-color: #9e9e9e;
+  background-image: linear-gradient(to bottom, #bAbAbA 0%, #afafaf 40%);
+  box-shadow: 0px -1px 2px 0 #060801 inset,
+              0px 1px 1px 1px #ccc,
+              0 0 0 6px #fff,
+              0 2px 12px 8px #ddd;
+}
+
