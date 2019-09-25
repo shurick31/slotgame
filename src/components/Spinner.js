@@ -9,9 +9,19 @@ export default class Spinner extends React.Component {
             reel: props.reel,
             balance: props.balance,
             debug: props.debug || false,
+            position: 0,
+            lastPosition: null
         }
         this.forceUpdateHandler = this.forceUpdateHandler.bind(this);
     };
+
+
+    static iconHeight = 121;
+    multiplier = Math.floor(Math.random() * (4 - 1) + 1);
+
+    start = this.setStartPosition();
+    speed = Spinner.iconHeight * this.multiplier;
+    timer = null;
 
     forceUpdateHandler() {
         this.reset();
@@ -34,16 +44,7 @@ export default class Spinner extends React.Component {
         }, 100);
     }
 
-    state = {
-        position: 0,
-        lastPosition: null
-    }
-    static iconHeight = 121;
-    multiplier = Math.floor(Math.random() * (4 - 1) + 1);
 
-    start = this.setStartPosition();
-    speed = Spinner.iconHeight * this.multiplier;
-    timer = null;
     setStartPosition() {
         return ((Math.floor((Math.random() * 5))) * Spinner.iconHeight) * -1;
     }
